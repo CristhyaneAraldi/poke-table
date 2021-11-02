@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import Form from 'react-bootstrap/Form';
 import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import Button from 'react-bootstrap/Button';
+import PokeContext from '../context/PokeContext';
 
 function Search() {
   // crie o estado controlado
@@ -9,6 +10,7 @@ function Search() {
   const [number, setNumber] = useState(INITIAL_NUM);
 
   // use a função callback do estado que dispara a ação do botão
+  const { getPokemons } = useContext(PokeContext);
   return (
     <section id="draw-section">
       <Form id="draw-form">
@@ -31,6 +33,7 @@ function Search() {
           type="button"
           variant="primary"
           // implemente a ação
+          onClick={ () => getPokemons(number) }
         >
           Sortear
         </Button>

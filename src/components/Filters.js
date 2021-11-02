@@ -1,11 +1,12 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import Form from 'react-bootstrap/Form';
 import PokeContext from '../context/PokeContext';
+import { selectors } from '../services';
 
 import SelectForm from './SelectForm';
 import InputForm from './InputForm';
 
-import { abilitiesMock as abilities, typesMock as types } from '../data';
+// import { abilitiesMock as abilities, typesMock as types } from '../data';
 
 function Filters() {
   // implemente o formulário controlado
@@ -29,7 +30,17 @@ function Filters() {
   //     [name]: value });
   // };
 
-  const { filter, handleChange } = useContext(PokeContext);
+  const [abilities, setAbilities] = useState([]);
+  const [types, setTypes] = useState([]);
+
+  const { pokemons, filter, handleChange } = useContext(PokeContext);
+
+  useEffect(() => {
+    const abilitiesArray = selectors(pokemons, 'abilities', 'ability');
+    const typesArray = selectors(pokemons, 'types', 'type');
+    setAbilities(abilitiesArray);
+    setTypes(typesArray);
+  }, [pokemons]);
 
   const { name, ability, type, height, weight } = filter;
 

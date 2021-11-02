@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import PokeContext from './PokeContext';
 import { fetchPokemons } from '../services/index';
 
@@ -20,13 +20,24 @@ function PokeProvider(props) {
   const [pokemons, setPokemons] = useState([]);
   const [error, setError] = useState(INITIAL_ERROR);
   const [isFetching, setIsFetching] = useState(false);
+  const [pokeRender, setPokeRender] = useState([]);
+
+  const { name, ability, type, height, weight } = filter;
+
+  useEffect(() => {
+    let arrayPokemons = [...pokemons];
+    if (name !== '') {
+      arrayPokemons = arrayPokemons.filter(({ name: nam }) => nam.includes(name));
+    }
+    setPokeRender(arrayPokemons);
+  }, [filter]);
 
   const handleChange = (event) => {
     const { target } = event;
-    const { name, value } = target;
+    const { name: nameInput, value } = target;
     setFilter({
       ...filter,
-      [name]: value });
+      [nameInput]: value });
   };
 
   const getPokemons = async (quantity) => {
@@ -47,6 +58,7 @@ function PokeProvider(props) {
     error,
     pokemons,
     isFetching,
+    pokeRender,
     handleChange,
     getPokemons,
   };

@@ -25,10 +25,16 @@ function Home() {
   // } = MOCK_HOME;
 
   // implemente a chamada a requisição externa (API)
-  const { getPokemons, pokemons, error, isFetching } = useContext(PokeContext);
+  const {
+    getPokemons,
+    pokemons,
+    pokeRender,
+    error,
+    isFetching,
+  } = useContext(PokeContext);
   const { hasError, message } = error;
 
-  const pokesRender = [...pokemons]; // assim vc copia o array, mas eles ficam independentes em caso de mudança
+  // const pokesRender = [...pokemons]; // assim vc copia o array, mas eles ficam independentes em caso de mudança
 
   useEffect(() => {
     getPokemons();
