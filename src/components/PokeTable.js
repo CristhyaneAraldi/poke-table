@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import Table from 'react-bootstrap/Table';
+import PokeContext from '../context/PokeContext';
 
-import { pokemonsMock as pokemons } from '../data';
+// import { pokemonsMock as pokemons } from '../data';
 
 function PokeTable() {
   // utilize os pokemons do estado para renderizar
+  const { pokemons } = useContext(PokeContext);
   return (
     <section id="table-section">
       <Table striped bordered hover>
