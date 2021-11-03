@@ -32,6 +32,7 @@ function Home() {
     error,
     isFetching,
   } = useContext(PokeContext);
+
   const { hasError, message } = error;
 
   // const pokesRender = [...pokemons]; // assim vc copia o array, mas eles ficam independentes em caso de mudança
@@ -45,8 +46,8 @@ function Home() {
       <Header />
       <Search />
       { pokemons.length > 0 && <Filters /> }
-      { pokesRender.length > 0 && pokemons.length > 0 && <PokeTable /> }
-      { pokesRender.length === 0 && pokemons.length > 0 && <h3>Não encontrado</h3> }
+      { pokeRender.length > 0 && pokemons.length > 0 && <PokeTable /> }
+      { pokeRender.length === 0 && pokemons.length > 0 && <h3>Não encontrado</h3> }
       { isFetching && <h4>Carregando...</h4> }
       { hasError && <h4>{ `Erro ao carregar: ${message}` }</h4> }
     </main>

@@ -1,5 +1,5 @@
-import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
 import PokeContext from './PokeContext';
 import { fetchPokemons } from '../services/index';
 
@@ -16,28 +16,50 @@ function PokeProvider(props) {
     hasError: false,
     message: '',
   };
+
   const [filter, setFilter] = useState(INITIAL_STATE);
   const [pokemons, setPokemons] = useState([]);
   const [error, setError] = useState(INITIAL_ERROR);
   const [isFetching, setIsFetching] = useState(false);
-  const [pokeRender, setPokeRender] = useState([]);
+  const [pokeRender, setPokeRender] = useState([pokemons]);
 
   const { name, ability, type, height, weight } = filter;
 
   useEffect(() => {
     let arrayPokemons = [...pokemons];
     if (name !== '') {
-      arrayPokemons = arrayPokemons.filter(({ name: nam }) => nam.includes(name));
+      const regex = new RegExp(name, 'ig');
+      arrayPokemons = arrayPokemons
+        .filter(({ name: pokemon }) => pokemon.search(regex) >= 0);
+    }
+    if (ability !== '') {
+      arrayPokemons = arrayPokemons
+        .filter(({ abilities }) => abilities
+          .some(({ ability: abi }) => abi.name === ability));
+    }
+    if (type !== '') {
+      arrayPokemons = arrayPokemons
+        .filter(({ types }) => types
+          .some(({ type: typ }) => typ.name === type));
+    }
+    if (weight > 0) {
+      arrayPokemons = arrayPokemons
+        .filter(({ weight: wei }) => wei >= weight);
+    }
+    if (height > 0) {
+      arrayPokemons = arrayPokemons
+        .filter(({ height: hei }) => hei >= height);
     }
     setPokeRender(arrayPokemons);
-  }, [filter]);
+  }, [filter, pokemons]);
 
   const handleChange = (event) => {
     const { target } = event;
     const { name: nameInput, value } = target;
     setFilter({
       ...filter,
-      [nameInput]: value });
+      [nameInput]: value,
+    });
   };
 
   const getPokemons = async (quantity) => {
