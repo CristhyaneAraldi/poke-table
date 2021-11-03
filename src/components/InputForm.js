@@ -6,19 +6,21 @@ import PropTypes from 'prop-types';
 function InputForm(props) {
   const { setup } = props;
   // acrescente a constante relacionado ao 'value'
-  const [type, label, name] = setup;
+  const [type, label, name, value, handleChange] = setup;
   // chame ao função callback para controle do estado
   return (
     <FloatingLabel
       htmlFor={ `${name}-input` }
       label={ label }
-      classname="mb-3"
+      className="mb-3"
     >
       <Form.Control
         id={ `${name}-input` }
         type={ type }
         name={ name }
         min="0"
+        value={ value }
+        onChange={ handleChange }
         // implemente o input controlado
         placeholder={ label }
       />
